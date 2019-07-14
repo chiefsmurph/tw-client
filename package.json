@@ -1,0 +1,17 @@
+{
+  "name": "tw-client",
+  "version": "1.0.0",
+  "main": "index.js",
+  "author": "pawnjefferson <pawnjefferson@gmail.com>",
+  "license": "MIT",
+  "scripts": {
+    "start": "pm2 start index.js --name tw-client"
+  },
+  "dependencies": {
+    "cometd": "^3.1.10",
+    "cron": "^1.7.1",
+    "socket.io-client": "^2.2.0",
+    "tasty-works-api": "^0.3.0",
+    "yahoo-stock-prices": "^1.0.1"
+  }
+}
