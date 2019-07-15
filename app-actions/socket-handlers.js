@@ -19,7 +19,7 @@ const handlePick = async data => {
 
     // if (price < 15) return console.log(`not buying ${ticker} because under $15`);
     if (tickersBoughtToday.includes(ticker)) return console.log(`not buying ${ticker} already alerted today`);
-    if (Math.random() > 0.6) return console.log(`not buying ${ticker} because did not pass random check`);
+    // if (Math.random() > 0.6) return console.log(`not buying ${ticker} because did not pass random check`);
 
     tickersBoughtToday.push(ticker);
 
