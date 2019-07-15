@@ -11,7 +11,10 @@ const handlePick = async data => {
     } = data;
     if (!forPurchasePick) return;
     if (withPrices.length !== 1) return console.log(`I did not like ${JSON.stringify(data, null, 2)}`);
-    
+
+    const hour = (new Date()).getHours();
+    if (hour >= 15) return console.log('no buying after 3pm');
+
     const { ticker, price } = withPrices[0];
 
     console.log(`received ${stratMin}: ${ticker}`);
@@ -25,7 +28,8 @@ const handlePick = async data => {
 
     const foundPast = fiveDay[stratMin];
     try {
-        await buy(ticker, price, foundPast, stratMin);
+        console.log("not buying ", ticker, price, foundPast. stratMin)
+        // await buy(ticker, price, foundPast, stratMin);
     } catch (e) {
         console.error(e);
     }
@@ -39,6 +43,6 @@ module.exports = socket => {
         console.log('setting welcome data. yeah!');
         fiveDay = data.pastData.fiveDay;
     });
-    socket.on('picks-data', handlePick);
+    socket.on('server:picks-data', handlePick);
 
 };

@@ -71,7 +71,7 @@ module.exports = async (ticker, price, foundPast, stratMin) => {
   });
 
 
-  const execution = await TastyWorks.executeOrder(account, firstOutOfMoney.call, limitPrice, withMultiplier);
+  // const execution = await TastyWorks.executeOrder(account, firstOutOfMoney.call, limitPrice, withMultiplier);
 
 
   const objToString = obj => Object.keys(obj).map(key => 
