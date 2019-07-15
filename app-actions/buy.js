@@ -2,9 +2,19 @@ const TastyWorks = require('../tasty-works-api');
 const util = require('util');
 const yahooStockPrices = require('yahoo-stock-prices');
 const qcomet = require('../qcomet');
+const sendEmail = require('../utils/send-email');
 
-module.exports = async (ticker, price, multiplier = 1) => {
+module.exports = async (ticker, price, foundPast, stratMin) => {
   console.log(`BUYING ${ticker}!!`);
+
+  let multiplier = foundPast ? Math.max([
+      Math.ceil(foundPast.avgTrend),
+      foundPast.percUp > 50 ? 1 : 0
+  ].reduce((acc, val) => acc + val, 0), 1.5) : 1;
+
+  console.log({ foundPast, multiplier });
+
+
   const balances = await TastyWorks.balances('5WU18519');
   if (Number(balances['equity-buying-power']) < 100) return console.log('NEED AT LEAST $100 TO WORK WITH');
 
@@ -57,7 +67,25 @@ module.exports = async (ticker, price, multiplier = 1) => {
     quantity
   });
 
-  return TastyWorks.executeOrder(account, firstOutOfMoney.call, limitPrice, quantity);
+
+  const execution = await TastyWorks.executeOrder(account, firstOutOfMoney.call, limitPrice, quantity);
+
+
+  const objToString = obj => Object.keys(obj).map(key => 
+    key + ' ' + obj[key]
+  ).join(', ');
+
+
+  await sendEmail(`buying ${ticker}`, objToString({
+    symbol: firstOutOfMoney.call,
+    stratMin,
+    bidPrice,
+    askPrice,
+    limitPrice,
+    quantity,
+  }));
+
+  return execution;
 
   
 };

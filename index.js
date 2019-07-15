@@ -57,20 +57,19 @@ const handlePick = async data => {
     console.log(`received ${stratMin}: ${ticker}`);
     console.log(`${(new Date()).toLocaleString()} RECEIVED FORPURCHASE PICK: ${stratMin} - ${ticker}`);
 
-    if (price < 15) return console.log(`not buying ${ticker} because under $15`);
+    // if (price < 15) return console.log(`not buying ${ticker} because under $15`);
     if (tickersBoughtToday.includes(ticker)) return console.log(`not buying ${ticker} already alerted today`);
     if (Math.random() > 0.6) return console.log(`not buying ${ticker} because did not pass random check`);
 
     tickersBoughtToday.push(ticker);
 
     const foundPast = fiveDay[stratMin];
-
-    let multiplier = foundPast ? Math.max([
-        Math.ceil(foundPast.avgTrend),
-        foundPast.percUp > 50 ? 1 : 0
-    ].reduce((acc, val) => acc + val, 0), 1.5) : 1;
-    console.log({ foundPast, multiplier });
-    await buy(ticker, price, multiplier);
+    try {
+        await buy(ticker, price, foundPast, stratMin);
+    } catch (e) {
+        console.error(e);
+    }
+    
     console.log(`done buying ${ticker}`);
 };
 socket.on('server:picks-data', handlePick);

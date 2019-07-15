@@ -2,8 +2,8 @@ const TastyWorks = require('../tasty-works-api');
 const getTrend = require('../utils/get-trend');
 const sell = require('./sell');
 
-const UPPER_LIMIT = 35;
-const LOWER_LIMIT = -30;
+const UPPER_LIMIT = 30;
+const LOWER_LIMIT = -25;
 const dontSell = ['SPY']
 
 module.exports = async (sellAll = false) => {

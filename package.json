@@ -10,6 +10,7 @@
   "dependencies": {
     "cometd": "^3.1.10",
     "cron": "^1.7.1",
+    "gmail-send": "^1.2.14",
     "socket.io-client": "^2.2.0",
     "tasty-works-api": "^0.3.0",
     "yahoo-stock-prices": "^1.0.1"
