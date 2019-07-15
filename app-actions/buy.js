@@ -55,20 +55,23 @@ module.exports = async (ticker, price, foundPast, stratMin) => {
 
   const limitPrice = +((bidPrice + 0.01).toFixed(2));;
 
+    const targetAmt = 140;
+  const costOfOneShare = limitPrice * 100;
+    const quantity = Math.max(1, Math.round(targetAmt / costOfOneShare));
 
-
-  const quantity = Math.max(1, Math.floor(1 / limitPrice * multiplier));
+    const withMultiplier = Math.round(quantity * multiplier);
 
 
   console.log({
     bidPrice,
     limitPrice,
     askPrice,
-    quantity
+    quantity,
+    withMultiplier
   });
 
 
-  const execution = await TastyWorks.executeOrder(account, firstOutOfMoney.call, limitPrice, quantity);
+  const execution = await TastyWorks.executeOrder(account, firstOutOfMoney.call, limitPrice, withMultiplier);
 
 
   const objToString = obj => Object.keys(obj).map(key => 
@@ -83,6 +86,7 @@ module.exports = async (ticker, price, foundPast, stratMin) => {
     askPrice,
     limitPrice,
     quantity,
+    withMultiplier,
   }));
 
   return execution;
