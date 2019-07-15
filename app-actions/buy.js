@@ -1,7 +1,7 @@
 const TastyWorks = require('../tasty-works-api');
 const util = require('util');
 const yahooStockPrices = require('yahoo-stock-prices');
-const qcomet = require('../qcomet');
+const cometdQuote = require('../qcomet');
 const sendEmail = require('../utils/send-email');
 
 module.exports = async (ticker, price, foundPast, stratMin) => {
@@ -45,7 +45,7 @@ module.exports = async (ticker, price, foundPast, stratMin) => {
   const {
     bidPrice, 
     askPrice 
-  } = await qcomet(
+  } = await cometdQuote(
     ticker, 
     soonestExp['expiration-date'],
     firstOutOfMoney['strike-price'],

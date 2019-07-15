@@ -4,7 +4,6 @@ const tickersBoughtToday = [];
 let fiveDay;
 
 const handlePick = async data => {
-    console.log({data});
     const {
         stratMin,
         forPurchasePick,
@@ -12,7 +11,6 @@ const handlePick = async data => {
     } = data;
     if (!forPurchasePick) return;
     if (withPrices.length !== 1) return console.log(`I did not like ${JSON.stringify(data, null, 2)}`);
-
     
     const { ticker, price } = withPrices[0];
 

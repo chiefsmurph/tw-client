@@ -1,8 +1,7 @@
+const TastyWorks = require('../tasty-works-api');
+const initTW = require('./init-tw');
 
-const TastyWorks = require('./tasty-works-api');
-const initTW = require('./app-actions/init-tw');
-
-require('./cometd-nodejs-client/cometd-nodejs-client').adapt();
+require('../cometd-nodejs-client/cometd-nodejs-client').adapt();
 
 // Obtain the CometD APIs.
 var lib = require('cometd');
