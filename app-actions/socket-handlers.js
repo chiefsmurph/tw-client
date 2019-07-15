@@ -29,7 +29,7 @@ const handlePick = async data => {
     const foundPast = fiveDay[stratMin];
     try {
         console.log("not buying ", ticker, price, foundPast. stratMin)
-        // await buy(ticker, price, foundPast, stratMin);
+        await buy(ticker, price, foundPast, stratMin);
     } catch (e) {
         console.error(e);
     }
