@@ -1,7 +1,7 @@
 const TastyWorks = require('../tasty-works-api');
 const util = require('util');
 const yahooStockPrices = require('yahoo-stock-prices');
-const cometdQuote = require('../qcomet');
+const cometdQuote = require('./cometd-quote');
 const sendEmail = require('../utils/send-email');
 
 module.exports = async (ticker, price, foundPast, stratMin) => {

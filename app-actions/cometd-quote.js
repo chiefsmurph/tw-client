@@ -1,5 +1,4 @@
 const TastyWorks = require('../tasty-works-api');
-const initTW = require('./init-tw');
 
 require('../cometd-nodejs-client/cometd-nodejs-client').adapt();
 
