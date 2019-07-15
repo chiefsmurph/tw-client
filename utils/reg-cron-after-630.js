@@ -6,7 +6,7 @@ const regCronIncAfterSixThirty = ({ name, min, fn }) => {
     const newDateObj = new Date(d.getTime() + min * 60000);
     newDateObj.setSeconds(0);
     const cronStr = `${newDateObj.getMinutes()} ${newDateObj.getHours()} * * 1-5`;
-    console.log({ cronStr, name })
+    console.log({ cronStr, name });
     new CronJob(cronStr, () => {
         console.log('starting cron: ', name);
         const callFn = () => fn(min);

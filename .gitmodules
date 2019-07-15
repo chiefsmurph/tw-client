@@ -1,0 +1,3 @@
+[submodule "cometd-nodejs-client"]
+	path = cometd-nodejs-client
+	url = https://github.com/cosimo/cometd-nodejs-client.git
