@@ -5,11 +5,13 @@ require('../cometd-nodejs-client/cometd-nodejs-client').adapt();
 // Obtain the CometD APIs.
 var lib = require('cometd');
 
-// Create the CometD object.
-var cometd = new lib.CometD();
+
 
 
 module.exports = (symbol, exp, strike, type = 'C') => {
+
+  // Create the CometD object.
+  var cometd = new lib.CometD();
 
   console.log({ symbol, exp, strike, type });
   //'SPY   190715C00299500'
@@ -57,6 +59,7 @@ module.exports = (symbol, exp, strike, type = 'C') => {
           // });
 
           if (title === 'Quote') {
+            cometd = null;
             resolve(formatted);
           }
 
