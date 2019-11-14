@@ -6,7 +6,7 @@ const socket = io('http://107.173.6.167:3000');
 const initSells = require('./app-actions/init-sells');
 const socketHandlers = require('./app-actions/socket-handlers');
 
-socketHandlers(socket);
+// socketHandlers(socket);
 socket.on('connect', function() { console.log('connect') });
 socket.on('disconnect', function(){});
 
