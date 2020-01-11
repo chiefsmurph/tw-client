@@ -55,11 +55,11 @@ module.exports = async (ticker, price, foundPast, stratMin) => {
 
   const limitPrice = +((bidPrice + 0.01).toFixed(2));;
 
-    const targetAmt = 140;
+  const targetAmt = 140;
   const costOfOneShare = limitPrice * 100;
-    const quantity = Math.max(1, Math.round(targetAmt / costOfOneShare));
+  const quantity = Math.max(1, Math.round(targetAmt / costOfOneShare));
 
-    const withMultiplier = Math.round(quantity * multiplier);
+  const withMultiplier = Math.round(quantity * multiplier);
 
 
   console.log({

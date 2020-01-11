@@ -4,6 +4,17 @@ const tickersBoughtToday = [];
 let fiveDay;
 
 
+
+const phrasesEnabled = [
+    'rsi-spy-10min-rsilt30',
+    'rsi-spy-10min-rsilt25',
+    'rsi-spy-10min-rsilt20',
+    'rsi-spy-10min-rsilt15',
+];
+
+
+
+
 const handlePick = async data => {
     const {
         stratMin,
@@ -11,12 +22,16 @@ const handlePick = async data => {
         withPrices
     } = data;
 
-    if (!forPurchasePick) return console.log('nope', data, data.withPrices.length ? data.withPrices[0].ticker : null);
+
+    if (!phrasesEnabled.some(phrase => stratMin.includes(phrase))) {
+        return console.log('pick not of interest');
+    }
+
     console.log({ data });
     if (withPrices.length !== 1) return console.log(`I did not like ${JSON.stringify(data, null, 2)}`);
 
-    const hour = (new Date()).getHours();
-    if (hour >= 15) return console.log('no buying after 3pm');
+    // const hour = (new Date()).getHours();
+    // if (hour >= 15) return console.log('no buying after 3pm');
 
     const { ticker, price } = withPrices[0];
 
@@ -24,15 +39,15 @@ const handlePick = async data => {
     console.log(`${(new Date()).toLocaleString()} RECEIVED FORPURCHASE PICK: ${stratMin} - ${ticker}`);
 
     // if (price < 15) return console.log(`not buying ${ticker} because under $15`);
-    if (tickersBoughtToday.includes(ticker)) return console.log(`not buying ${ticker} already alerted today`);
+    // if (tickersBoughtToday.includes(ticker)) return console.log(`not buying ${ticker} already alerted today`);
     // if (Math.random() > 0.6) return console.log(`not buying ${ticker} because did not pass random check`);
 
     tickersBoughtToday.push(ticker);
 
     const foundPast = fiveDay[stratMin];
     try {
-        console.log("not buying ", ticker, price, foundPast, stratMin)
-        // await buy(ticker, price, foundPast, stratMin);
+        // console.log("not buying ", ticker, price, foundPast, stratMin)
+        await buy(ticker, price, foundPast, stratMin);
     } catch (e) {
         console.error(e);
     }
