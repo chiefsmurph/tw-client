@@ -13,8 +13,8 @@ const handlePick = async data => {
         withPrices
     } = data;
 
-
-    if (!phrasesEnabled.some(phrase => stratMin.includes(phrase))) {
+    const matchesPhrase = phrasesEnabled.some(phrase => stratMin.includes(phrase));
+    if (!matchesPhrase) {
         return console.log('pick not of interest');
     }
 

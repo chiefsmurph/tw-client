@@ -3,20 +3,20 @@ const util = require('util');
 const yahooStockPrices = require('yahoo-stock-prices');
 const cometdQuote = require('./cometd-quote');
 const sendEmail = require('../utils/send-email');
-const { buyAmount } = require('../config');
+const { buyAmount, tastyworks: { accountId } } = require('../config');
 
 module.exports = async (ticker, price, foundPast, stratMin) => {
   console.log(`BUYING ${ticker}!!`);
 
-  let multiplier = foundPast ? Math.max([
-      Math.ceil(foundPast.avgTrend),
-      foundPast.percUp > 50 ? 1 : 0
-  ].reduce((acc, val) => acc + val, 0), 1.5) : 1;
+  let multiplier = 1 // foundPast ? Math.max([
+  //     Math.ceil(foundPast.avgTrend),
+  //     foundPast.percUp > 50 ? 1 : 0
+  // ].reduce((acc, val) => acc + val, 0), 1.5) : 1;
 
   console.log({ foundPast, multiplier });
 
 
-  const balances = await TastyWorks.balances('5WU18519');
+  const balances = await TastyWorks.balances(accountId);
   if (Number(balances['equity-buying-power']) < 100) return console.log('NEED AT LEAST $100 TO WORK WITH');
 
   const curPrice = price || await util.promisify(yahooStockPrices.getCurrentPrice)(ticker);
