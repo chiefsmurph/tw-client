@@ -3,6 +3,7 @@ const util = require('util');
 const yahooStockPrices = require('yahoo-stock-prices');
 const cometdQuote = require('./cometd-quote');
 const sendEmail = require('../utils/send-email');
+const { buyAmount } = require('../config');
 
 module.exports = async (ticker, price, foundPast, stratMin) => {
   console.log(`BUYING ${ticker}!!`);
@@ -55,9 +56,8 @@ module.exports = async (ticker, price, foundPast, stratMin) => {
 
   const limitPrice = +((bidPrice + 0.01).toFixed(2));;
 
-  const targetAmt = 140;
   const costOfOneShare = limitPrice * 100;
-  const quantity = Math.max(1, Math.round(targetAmt / costOfOneShare));
+  const quantity = Math.max(1, Math.round(buyAmount / costOfOneShare));
 
   const withMultiplier = Math.round(quantity * multiplier);
 
