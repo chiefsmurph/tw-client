@@ -3,16 +3,7 @@ const buy = require('./buy');
 const tickersBoughtToday = [];
 let fiveDay;
 
-
-
-const phrasesEnabled = [
-    'rsi-spy-10min-rsilt30',
-    'rsi-spy-10min-rsilt25',
-    'rsi-spy-10min-rsilt20',
-    'rsi-spy-10min-rsilt15',
-];
-
-
+const { phrasesEnabled } = require('../config');
 
 
 const handlePick = async data => {

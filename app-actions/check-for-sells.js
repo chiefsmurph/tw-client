@@ -2,9 +2,11 @@ const TastyWorks = require('../tasty-works-api');
 const getTrend = require('../utils/get-trend');
 const sell = require('./sell');
 
-const UPPER_LIMIT = 40;
-const LOWER_LIMIT = -25;
-const dontSell = ['SPY']
+const {
+  tickersOfInterest,
+  upperLimit,
+  lowerLimit,
+} = require('../config');
 
 module.exports = async (sellAll = false) => {
 
@@ -26,17 +28,21 @@ module.exports = async (sellAll = false) => {
       trend: getTrend(position.currentPrice, position.openPrice)
     }));
 
-  const withShouldSell = analyzed.map(position => ({
-    ...position,
-    shouldSell: dontSell.every(t => !position.symbol.includes(t)) &&
-      (position.trend > UPPER_LIMIT || position.trend < LOWER_LIMIT)
-  }));
+  const withShouldSell = analyzed.map(position => {
+    const { symbol, trend } = position;
+    const tickerOk = tickersOfInterest.includes(symbol);
+    const outsideOfLimits = trend > upperLimit || trend < lowerLimit;
+    return {
+      ...position,
+      shouldSell: Boolean(tickerOk && outsideOfLimits)
+    };
+  });
 
   strlog(withShouldSell)
 
   const selling = withShouldSell.filter(position => position.shouldSell || sellAll);
-  for (let position of selling) {
-    console.log(`SELLING ${position.symbol}`)
-    await sell(position.symbol, position.quantity);
+  for (let { symbol, quantity } of selling) {
+    console.log(`SELLING ${symbol}`)
+    await sell(symbol, quantity);
   }
 }
