@@ -39,11 +39,11 @@ module.exports = async (sellAll = false) => {
     };
   });
 
-  strlog(withShouldSell)
+  strlog({withShouldSell})
 
   const selling = withShouldSell.filter(position => position.shouldSell || sellAll);
   for (let { symbol, quantity } of selling) {
     console.log(`SELLING ${symbol}`)
-    // await sell(symbol, quantity);
+    await sell(symbol, quantity);
   }
 }
