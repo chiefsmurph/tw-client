@@ -30,8 +30,9 @@ module.exports = async (sellAll = false) => {
 
   const withShouldSell = analyzed.map(position => {
     const { symbol, trend } = position;
-    const tickerOk = tickersOfInterest.includes(symbol);
+    const tickerOk = tickersOfInterest.some(t => symbol.includes(t));
     const outsideOfLimits = trend > upperLimit || trend < lowerLimit;
+    console.log({ tickerOk, outsideOfLimits, symbol })
     return {
       ...position,
       shouldSell: Boolean(tickerOk && outsideOfLimits)
@@ -43,6 +44,6 @@ module.exports = async (sellAll = false) => {
   const selling = withShouldSell.filter(position => position.shouldSell || sellAll);
   for (let { symbol, quantity } of selling) {
     console.log(`SELLING ${symbol}`)
-    await sell(symbol, quantity);
+    // await sell(symbol, quantity);
   }
 }
