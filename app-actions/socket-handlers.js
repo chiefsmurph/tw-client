@@ -49,7 +49,7 @@ const handlePick = async data => {
 module.exports = socket => {
     socket.on('server:data-update', data => {
         console.log('setting welcome data. yeah!');
-        fiveDay = data.pastData.fiveDay || fiveDay;
+        fiveDay = data && data.pastData ? data.pastData.fiveDay : fiveDay;
         predictionModels = data.predictionModels || predictionModels;
     });
     socket.on('server:picks-data', handlePick);
