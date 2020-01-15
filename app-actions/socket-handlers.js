@@ -12,7 +12,9 @@ const handlePick = async data => {
         forPurchasePick,
         withPrices
     } = data;
-
+    if (stratMin.includes('SPY')) {
+        console.log('SPY pick found', data);
+    }
     const matchesPhrase = phrasesEnabled.some(phrase => stratMin.includes(phrase));
     if (!matchesPhrase) {
         return console.log('pick not of interest');
