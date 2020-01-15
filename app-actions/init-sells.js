@@ -5,6 +5,7 @@ const regCronIncAfterSixThirty = require('../utils/reg-cron-after-630');
 let interval;
 const start = () => {
   interval = setInterval(() => checkForSells(), 1000 * 60 * 8);
+  checkForSells();
 };
 
 const stop = () => {
