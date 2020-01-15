@@ -14,10 +14,10 @@ module.exports = async (sellAll = false) => {
   for (let position of selling) {
     const { symbol, quantity, trend, returnDollars } = position;
     const timesSoldToday = Number(soldToday[symbol] || 0);
-    if (timesSoldToday) {
-      console.log('already sold today - time to close it out');
+    if (timesSoldToday >= 2) {
+      console.log('already sold twice today - time to close it out');
     }
-    const sharesToSell = timesSoldToday ? quantity : Math.ceil(quantity / 2);
+    const sharesToSell = timesSoldToday ? quantity : Math.ceil(quantity / 3);
     console.log(`SELLING ${symbol} ${sharesToSell}`);
     await sell(symbol, sharesToSell);
     await sendEmail(`SOLD ${symbol} at ${trend}% (~${returnDollars}) timesSoldToday ${timesSoldToday}`, JSON.stringify(position, null, 2));
