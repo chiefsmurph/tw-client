@@ -1,6 +1,7 @@
 const TastyWorks = require('../tasty-works-api');
 const getTrend = require('../utils/get-trend');
 const sell = require('./sell');
+const sendEmail = require('../utils/send-email');
 
 const {
   tickersOfInterest,
@@ -22,6 +23,7 @@ module.exports = async (sellAll = false) => {
       quantity: position.quantity,
       openPrice: Number(position['average-open-price']),
       currentPrice: Number(position['mark-price']),
+      ...position
     }))
     .map(position => ({
       ...position,
@@ -32,9 +34,11 @@ module.exports = async (sellAll = false) => {
     const { symbol, trend } = position;
     const tickerOk = tickersOfInterest.some(t => symbol.includes(t));
     const outsideOfLimits = trend > upperLimit || trend < lowerLimit;
-    console.log({ tickerOk, outsideOfLimits, symbol })
+    // console.log({ tickerOk, outsideOfLimits, symbol })
     return {
       ...position,
+      tickerOk,
+      outsideOfLimits,
       shouldSell: Boolean(tickerOk && outsideOfLimits)
     };
   });
@@ -42,8 +46,10 @@ module.exports = async (sellAll = false) => {
   strlog({withShouldSell})
 
   const selling = withShouldSell.filter(position => position.shouldSell || sellAll);
-  for (let { symbol, quantity } of selling) {
-    console.log(`SELLING ${symbol}`)
-    await sell(symbol, quantity);
+  for (let position of selling) {
+    const { symbol, quantity, trend } = position;
+    console.log(`SELLING ${symbol}`);
+    // await sell(symbol, quantity);
+    await sendEmail(`SOLD ${symbol} at ${trend}%`, JSON.stringify(position, null, 2));
   }
 }
