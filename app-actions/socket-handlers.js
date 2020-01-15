@@ -42,10 +42,10 @@ const handlePick = async data => {
         await new Promise(resolve => setTimeout(resolve, 1000 * 60));
         await buy(ticker, price, foundPast, stratMin);
         console.log('waiting for a minute for spray two');
-        await new Promise(resolve => setTimeout(resolve, 1000 * 60));
+        await new Promise(resolve => setTimeout(resolve, 1000 * 60 * 2));
         await buy(ticker, price, foundPast, stratMin);
         console.log('waiting for a minute for spray three');
-        await new Promise(resolve => setTimeout(resolve, 1000 * 60));
+        await new Promise(resolve => setTimeout(resolve, 1000 * 60 * 2));
         await buy(ticker, price, foundPast, stratMin);
     } catch (e) {
         console.error(e);
