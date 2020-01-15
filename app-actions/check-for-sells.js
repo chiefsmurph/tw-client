@@ -10,9 +10,9 @@ module.exports = async (sellAll = false) => {
 
   const selling = withShouldSell.filter(position => position.shouldSell || sellAll);
   for (let position of selling) {
-    const { symbol, quantity, trend } = position;
+    const { symbol, quantity, trend, returnDollars } = position;
     console.log(`SELLING ${symbol}`);
     // await sell(symbol, quantity);
-    await sendEmail(`SOLD ${symbol} at ${trend}%`, JSON.stringify(position, null, 2));
+    await sendEmail(`SOLD ${symbol} at ${trend}% (~${returnDollars})`, JSON.stringify(position, null, 2));
   }
 }
