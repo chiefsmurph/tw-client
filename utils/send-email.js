@@ -7,7 +7,7 @@ const send = gmailSend({
 });
 
 
-const sendSingle = (subject, text, to, files = []) => 
+const sendSingle = (subject, text = '', to, files = []) => 
   new Promise((resolve, reject) => {
       console.log(`sending email...to ${to}...`);
       console.log('subject', subject, 'text', text.slice(0, 20));
