@@ -25,7 +25,7 @@ module.exports = () => {
 
   regCronIncAfterSixThirty({
     name: 'MARKET OPEN start checking for sells',
-    min: 0,
+    min: 0.1,
     fn: start
   });
 
