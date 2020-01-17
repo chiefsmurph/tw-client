@@ -5,7 +5,7 @@ const sendEmail = require('../utils/send-email');
 const regCronIncAfterSixThirty = require('../utils/reg-cron-after-630');
 
 
-const initDispersal = (position, quantityToDisperse) => {
+const initDispersal = async (position, quantityToDisperse) => {
   let { symbol, mark, quantity } = position;
   quantityToDisperse = quantityToDisperse || position.quantity;
   console.log(`init'ng dispersal of ${symbol}, mark ${mark}, ${quantityToDisperse} quantityToDisperse`);
@@ -23,7 +23,8 @@ const initDispersal = (position, quantityToDisperse) => {
 
   const data = { mark, quantity, quantityToDisperse, perShare, quantityPerDisperse, numDispersals, minutesApart, minArray };
   console.log(data);
-
+  
+  console.log('hii')
   let numDispersed = 0;
   const disperse = async i => {
     const numLeft = quantityToDisperse - numDispersed;
@@ -42,6 +43,8 @@ const initDispersal = (position, quantityToDisperse) => {
     })
   );
 
+  await sendEmail(`INIT DISPERSE ${symbol} - numDispersals ${numDispersals} quantityPerDisperse ${quantityPerDisperse}`, JSON.stringify({ ...data }, null, 2));
+  
 };
 
 

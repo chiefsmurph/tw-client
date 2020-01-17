@@ -1,13 +1,11 @@
 const checkForSells = require('./check-for-sells');
 const dayInProgress = require('../utils/day-in-progress');
 const regCronIncAfterSixThirty = require('../utils/reg-cron-after-630');
-const initDispersals = require('./init-dispersals');
 
 let interval;
 const start = () => {
   interval = setInterval(() => checkForSells(), 1000 * 60 * 8);
   checkForSells();
-  initDispersals();
 };
 
 const stop = () => {

@@ -6,6 +6,8 @@ console.log({ endpoint })
 const io = require('socket.io-client');
 const socket = io(endpoint);
 const initSells = require('./app-actions/init-sells');
+const initDispersals = require('./app-actions/init-dispersals');
+
 const socketHandlers = require('./app-actions/socket-handlers');
 const getPositions = require('./app-actions/get-positions');
 
@@ -22,6 +24,8 @@ socket.on('disconnect', function(){});
     console.log('initializing sells...');
     initSells();
 
+    console.log('initializing dispersals...')
+    initDispersals();
 
     console.log('done intiializing.  current positions....')
     strlog(await getPositions());
