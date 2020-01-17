@@ -24,10 +24,14 @@ const initDispersal = (position, quantityToDisperse) => {
   const data = { mark, quantity, quantityToDisperse, perShare, quantityPerDisperse, numDispersals, minutesApart, minArray };
   console.log(data);
 
-
+  let numDispersed = 0;
   const disperse = async i => {
-    await sell(symbol, quantityPerDisperse);
-    await sendEmail(`DISPERSING ${symbol} - ${i+1}/${numDispersals}`, JSON.stringify(data, null, 2));
+    const numLeft = quantityToDisperse - numDispersed;
+    const q = Math.min(quantityPerDisperse, numLeft);
+    if (q <= 0) return sendEmail(`Q LESS THAN OR EQUAL TO 0`, JSON.stringify({ numDispersed, quantityToDisperse }, null, 2));
+    await sell(symbol, q);
+    await sendEmail(`DISPERSING ${symbol} - ${i+1}/${numDispersals} q ${q}`, JSON.stringify({ data, q, numDispersed, numLeft }, null, 2));
+    numDispersed = numDispersed + q;
   };
 
   minArray.forEach((min, i) =>
