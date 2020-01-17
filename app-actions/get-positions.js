@@ -25,7 +25,7 @@ module.exports = async () => {
     }))
     .map(position => ({
       ...position,
-      returnDollars: +Number(Number(position.mark) * position.trend / 100).toFixed(2)
+      returnDollars: +Number(Number(position.mark) - Number(position.mark) * 100 / (100 + position.trend)).toFixed(2)
     }));
 
   const withShouldSell = analyzed.map(position => {
