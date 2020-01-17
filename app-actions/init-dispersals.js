@@ -1,5 +1,5 @@
 const getPositions = require('./get-positions');
-const { activeDispersals = {}, dollarsPerDisperse } = require('../config');
+const { activeDispersals = {}, dollarsPerDisperse, clearDispersalsEOD } = require('../config');
 const sell = require('./sell');
 const sendEmail = require('../utils/send-email');
 const regCronIncAfterSixThirty = require('../utils/reg-cron-after-630');
@@ -43,6 +43,19 @@ const initDispersal = async (position, quantityToDisperse) => {
     })
   );
 
+  if (clearDispersalsEOD) {
+    regCronIncAfterSixThirty({
+      name: `CLEAR ${symbol}`,
+      min: 389,
+      fn: async () => {
+        const positions = await getPositions();
+        const pos = positions.find(position => position.symbol === symbol);
+        await sell(symbol, pos.quantity);
+        await sendEmail(`CLEAR ${symbol} ${pos.quantity} shares`, JSON.stringify(positions, null, 2))
+      }
+    });
+  }
+
   await sendEmail(`INIT DISPERSE ${symbol} - numDispersals ${numDispersals} quantityPerDisperse ${quantityPerDisperse}`, JSON.stringify({ ...data }, null, 2));
   
 };
@@ -52,10 +65,14 @@ module.exports = async () => {
   const positions = await getPositions();
 
   Object.keys(activeDispersals).forEach(symbol => {
+
     initDispersal(
       positions.find(position => position.symbol === symbol),
       activeDispersals[symbol]
-    )
+    );
+
+
   });
+
 
 };
