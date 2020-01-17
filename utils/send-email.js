@@ -20,7 +20,7 @@ const sendSingle = (subject, text = '', to, files = []) =>
   });
 
 
-module.exports = async (subject, text, to = [credentials.username, email], files = []) => {
+module.exports = async (subject, text = '', to = [credentials.username, email], files = []) => {
 
   to = Array.isArray(to) ? to : [to];
   for (let addr of to) {
