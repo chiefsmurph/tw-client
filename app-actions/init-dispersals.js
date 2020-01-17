@@ -29,9 +29,10 @@ const initDispersal = async (position, quantityToDisperse) => {
   const disperse = async i => {
     const numLeft = quantityToDisperse - numDispersed;
     const q = Math.min(quantityPerDisperse, numLeft);
+    const positions = await getPositions();
     if (q <= 0) return sendEmail(`Q LESS THAN OR EQUAL TO 0`, JSON.stringify({ numDispersed, quantityToDisperse }, null, 2));
     await sell(symbol, q);
-    await sendEmail(`DISPERSING ${symbol} - ${i+1}/${numDispersals} q ${q}`, JSON.stringify({ data, q, numDispersed, numLeft }, null, 2));
+    await sendEmail(`DISPERSING ${symbol} - ${i+1}/${numDispersals} q ${q}`, JSON.stringify({ data, q, numDispersed, numLeft, positions }, null, 2));
     numDispersed = numDispersed + q;
   };
 
